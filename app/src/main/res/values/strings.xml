@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">MyPalm-PHC-Attendance</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome">Welcome</string>
+    <string name="sign_in_to_continue">Sign in to continue</string>
+    <string name="server_select">Server Selection</string>
+    <string name="plantation">Plantation</string>
+    <string name="mill">Mill</string>
+    <string name="forgot_password">forgot password</string>
+    <string name="username">UserName</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="kindly_fill_all_fields">Please enter your username and password to continue.</string>
+    <string name="try_again_str">Try Again</string>
+    <string name="continue_str">Continue</string>
+    <string name="enroll_face">Enroll</string>
+    <string name="attendance">Attendance</string>
+    <string name="note_for_face_reg">Please turn your face left and right for the scanning process.\\n</string>
+    <string name="register">Register</string>
+    <string name="str_stop">Stop</string>
+    <string name="emp_reg">Employee Register</string>
+    <string name="emp_name">Employee Register</string>
+    <string name="save">Save</string>
+    <string name="register_face">Register Face</string>
+    <string name="face_already_exist">Face already exist</string>
+    <string name="total_employees">Total Employees</string>
+    <string name="view_employees">View Employees</string>
+    <string name="today_attendance">Today</string>
+    <string name="today">Today</string>
+    <string name="present">Present</string>
+    <string name="disclaimer"> <string name="disclaimer"><font color="#ff0000"><b>*</b></font> Please press button to register your attendance</string>
+</string>
+    <string name="emp_code">Emp-Code</string>
+    <string name="update_str">Update</string>
+    <string name="absent">Absent</string>
+    <string name="start_attendance">Start Attendance</string>
+    <string name="change_pass">Change Password</string>
+    <string name="data_upload">Data Upload</string>
+    <string name="updata_loc_data">Update Offline Data</string>
+    <string name="server_config">Server Config</string>
+    <string name="logout">logout</string>
+    <string name="profile">Profile</string>
+    <string name="mill_code">Mill Code</string>
+    <string name="select_site_details">Select Site Details</string>
+    <string name="estate">Estate</string>
+    <string name="hint_estate">Select Estate</string>
+    <string name="division">Division</string>
+    <string name="hint_division">Select Division</string>
+    <string name="block">Block</string>
+    <string name="hint_block">Select Block</string>
+    <string name="okey">Okey</string>
+</resources>

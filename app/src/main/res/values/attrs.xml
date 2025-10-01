@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- res/values/attrs.xml -->
+    <declare-styleable name="HorizontalSegmentedProgressBar">
+        <attr name="segmentCount" format="integer" />
+        <attr name="segmentWidth" format="dimension" />
+        <attr name="segmentHeight" format="dimension" />
+        <attr name="segmentSpacing" format="dimension" />
+        <attr name="segmentRadius" format="dimension" />
+        <attr name="currentStep" format="integer" />
+        <attr name="segmentColor" format="color" />
+        <attr name="completedSegmentColor" format="color" />
+    </declare-styleable>
+</resources>

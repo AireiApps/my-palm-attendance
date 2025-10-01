@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="et_radius">8dp</dimen>
+    <dimen name="btn_radius">8dp</dimen>
+    <dimen name="btn_stroke_width">2dp</dimen>
+    <dimen name="common_form_radius">8dp</dimen>
+    <dimen name="empty_screen_image">160dp</dimen>
+    <dimen name="profile_image_size">130dp</dimen>
+</resources>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/emptyFragment">
+
+    <fragment
+        android:id="@+id/emptyFragment"
+        android:name="com.airei.app.phc.attendance.ui.EmptyFragment"
+        android:label="fragment_empty"
+        tools:layout="@layout/fragment_empty" />
+    <fragment
+        android:id="@+id/attendanceHomeFragment"
+        android:name="com.airei.app.phc.attendance.ui.AttendanceHomeFragment"
+        android:label="fragment_attendance_home"
+        tools:layout="@layout/fragment_attendance_home" />
+    <fragment
+        android:id="@+id/loadingFragment"
+        android:name="com.airei.app.phc.attendance.ui.LoadingFragment"
+        android:label="fragment_loading"
+        tools:layout="@layout/fragment_loading" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.airei.app.phc.attendance.ui.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.airei.app.phc.attendance.ui.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/uploadDataFragment"
+        android:name="com.airei.app.phc.attendance.ui.UploadDataFragment"
+        android:label="fragment_upload_data"
+        tools:layout="@layout/fragment_upload_data" />
+    <activity
+        android:id="@+id/splashActivity"
+        android:name="com.airei.app.phc.attendance.SplashActivity"
+        android:label="activity_splash"
+        tools:layout="@layout/activity_splash" />
+    <fragment
+        android:id="@+id/makeAttendanceFragment"
+        android:name="com.airei.app.phc.attendance.ui.attendance.MakeAttendanceFragment"
+        android:label="fragment_make_attendance"
+        tools:layout="@layout/fragment_make_attendance" />
+    <fragment
+        android:id="@+id/registerFaceFragment"
+        android:name="com.airei.app.phc.attendance.ui.attendance.RegisterFaceFragment"
+        android:label="fragment_register_face"
+        tools:layout="@layout/fragment_register_face" />
+    <fragment
+        android:id="@+id/viewEmployeeFragment"
+        android:name="com.airei.app.phc.attendance.ui.attendance.ViewEmployeeFragment"
+        android:label="fragment_view_employee1"
+        tools:layout="@layout/fragment_view_employee1" />
+
+</navigation>

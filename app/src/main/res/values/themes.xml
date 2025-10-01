@@ -1,0 +1,164 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MyPalmPHCAttendance" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="fontFamily">@font/fredoka_regular</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">never</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="font">@font/fredoka_regular</item>
+        <item name="android:colorPrimaryDark">@color/mirage</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
+
+    <style name="Theme.MyPalmPHCAttendance" parent="Base.Theme.MyPalmPHCAttendance" />
+
+    <!-- Splash Screen Theme -->
+    <style name="Theme.MyApp.Splash" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Use drawable for splash background -->
+        <item name="android:windowBackground">@drawable/bg_splash_screen</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="31">@mipmap/ic_my_palm_attendance_round</item>
+        <item name="android:windowSplashScreenAnimationDuration" tools:targetApi="31">3000</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowSplashScreenBehavior" tools:ignore="NewApi">icon_preferred</item>
+    </style>
+
+    <style name="TextLayoutStyleWhite" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColorHint">@color/jewel</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textCursorDrawable">@color/jewel</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/common_form_radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/common_form_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/common_form_radius</item>
+        <item name="boxCornerRadiusTopStart">@dimen/common_form_radius</item>
+        <item name="boxStrokeColor">@color/jewel</item>
+        <item name="boxStrokeWidth">@dimen/btn_stroke_width</item>
+        <item name="boxStrokeErrorColor">@color/flame_pea</item>
+        <item name="counterOverflowTextColor">@color/flame_pea</item>
+        <item name="cursorColor">@color/jewel</item>
+        <item name="errorEnabled">true</item>
+        <item name="hintEnabled">false</item>
+        <item name="endIconTint">@color/jewel</item>
+        <item name="errorIconTint">@color/flame_pea</item>
+        <item name="errorTextColor">@color/flame_pea</item>
+        <item name="hintTextColor">@color/jewel</item>
+    </style>
+
+    <style name="TextInputStyleWhite" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/jewel</item>
+        <item name="hintTextColor">@color/jewel</item>
+        <item name="android:maxLength">25</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:background">@drawable/et_bg_fill_white</item>
+        <item name="android:backgroundTint">@color/gum_leaf</item>
+        <item name="android:textColor">@color/jewel</item>
+        <item name="android:textColorHint">@color/jewel</item>
+        <item name="android:textColorHighlight">@color/white_lite_200</item>
+        <item name="android:textSize">14sp</item>
+
+    </style>
+
+    <style name="ButtonFill" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:background">@drawable/btn_bg_white_fill</item>
+        <item name="backgroundTint">@null</item>
+    </style>
+    <style name="ButtonLine" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:background">@drawable/btn_bg_white_lines</item>
+        <item name="backgroundTint">@null</item>
+    </style>
+    <style name="ImageViewCircle">
+        <item name="cornerSize">49%</item>
+    </style>
+    <!-- Style for the LinearLayout container -->
+    <style name="NoDataLayoutStyle">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Style for the ImageView inside the no data layout -->
+    <style name="EmptyImageViewStyle">
+        <item name="android:layout_width">@dimen/empty_screen_image</item>
+        <item name="android:layout_height">@dimen/empty_screen_image</item>
+        <item name="android:src">@drawable/img_empty_folder</item>
+    </style>
+
+    <!-- Style for the TextView inside the no data layout -->
+    <style name="NoDataTextStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textColor">@color/alto</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:paddingVertical">16dp</item>
+        <item name="android:text">@string/no_records_found</item>
+    </style>
+
+    <string name="no_records_found">No Records Found</string>
+
+
+    <!-- TextView Style -->
+    <style name="CustomTextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <!-- EditText Style -->
+    <style name="CustomEditText">
+        <item name="android:background">@drawable/et_bg_line_white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingHorizontal">14dp</item>
+        <item name="android:paddingVertical">16dp</item>
+    </style>
+
+    <!-- EditText Style -->
+    <style name="CustomCommentEditText">
+        <item name="android:background">@drawable/et_bg_line_white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+
+        <item name="android:paddingHorizontal">14dp</item>
+        <item name="android:paddingVertical">16dp</item>
+    </style>
+
+    <!-- Special EditText Style for Calendar -->
+    <style name="CalendarEditText">
+        <item name="android:background">@drawable/et_bg_line_white</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:drawableEnd">@drawable/ic_calendar</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:inputType">none</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingHorizontal">14dp</item>
+        <item name="android:paddingVertical">12dp</item>
+    </style>
+
+    <!-- Special EditText Style for Selector -->
+    <style name="SelectorEditText">
+        <item name="android:background">@drawable/et_bg_fill_white</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:drawableEnd">@drawable/ic_expand_arrow</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:inputType">none</item>
+        <item name="android:textColor">@color/mirage</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingHorizontal">14dp</item>
+        <item name="android:paddingVertical">12dp</item>
+        <item name="hintTextColor">@color/ebony_clay</item>
+    </style>
+</resources>
