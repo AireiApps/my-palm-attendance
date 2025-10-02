@@ -50,4 +50,11 @@
     <string name="block">Block</string>
     <string name="hint_block">Select Block</string>
     <string name="okey">Okey</string>
+    <string name="add_str">Add</string>
+    <string name="start_detection">Start Detection</string>
+    <string name="stop_detection">Stop Detection</string>
+    <string name="stop_attendance">Stop Attendance</string>
+    <string name="no_face_detected">No face detected</string>
+    <string name="multiple_faces_detected">" Multiple faces detected"</string>
+    <string name="no_match_found">No match found</string>
 </resources>

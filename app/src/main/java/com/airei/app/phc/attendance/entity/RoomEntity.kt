@@ -26,7 +26,8 @@ data class UserTable(
 @Entity(tableName = "emp_bio_table")
 @TypeConverters(FloatArrayConverter::class)
 data class EmployeeBioTable(
-    @PrimaryKey @ColumnInfo(name = "emp_user_id") @SerializedName("emp_user_id") val empUserId: String,
+    @PrimaryKey @ColumnInfo(name = "local_id") val localId: Int = 0,
+    @ColumnInfo(name = "emp_user_id") @SerializedName("emp_user_id") val empUserId: String,
     @ColumnInfo("emp_face_data") @SerializedName("emp_face_data") var empFaceData: List<FloatArray> = listOf(),
     @ColumnInfo("upload_status") @SerializedName("upload_status") var uploadStatus: Boolean = false,
     @ColumnInfo(name = "online_id") @SerializedName("online_id") var onlineId: String = "",

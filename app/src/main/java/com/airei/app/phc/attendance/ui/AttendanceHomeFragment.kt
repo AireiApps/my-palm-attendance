@@ -84,7 +84,7 @@ class AttendanceHomeFragment : Fragment() {
                 findNavController().navigate(R.id.viewEmployeeFragment)
             }
             btnViewTakeAttendance.setOnClickListener {
-                findNavController().navigate(R.id.makeAttendanceFragment)
+                findNavController().navigate(R.id.faceRecognitionFragment)
             }
         }
     }

@@ -41,19 +41,19 @@
         android:label="activity_splash"
         tools:layout="@layout/activity_splash" />
     <fragment
-        android:id="@+id/makeAttendanceFragment"
-        android:name="com.airei.app.phc.attendance.ui.attendance.MakeAttendanceFragment"
-        android:label="fragment_make_attendance"
-        tools:layout="@layout/fragment_make_attendance" />
-    <fragment
-        android:id="@+id/registerFaceFragment"
-        android:name="com.airei.app.phc.attendance.ui.attendance.RegisterFaceFragment"
-        android:label="fragment_register_face"
-        tools:layout="@layout/fragment_register_face" />
-    <fragment
         android:id="@+id/viewEmployeeFragment"
         android:name="com.airei.app.phc.attendance.ui.attendance.ViewEmployeeFragment"
         android:label="fragment_view_employee1"
         tools:layout="@layout/fragment_view_employee1" />
+    <fragment
+        android:id="@+id/faceRecognitionFragment"
+        android:name="com.airei.app.phc.attendance.ui.attendance.FaceRecognitionFragment"
+        android:label="fragment_face_recognition"
+        tools:layout="@layout/fragment_face_recognition" />
+    <fragment
+        android:id="@+id/faceRegisterFragment"
+        android:name="com.airei.app.phc.attendance.ui.attendance.FaceRegisterFragment"
+        android:label="fragment_face_register"
+        tools:layout="@layout/fragment_face_register" />
 
 </navigation>

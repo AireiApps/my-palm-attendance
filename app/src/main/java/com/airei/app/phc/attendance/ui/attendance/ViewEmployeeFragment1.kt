@@ -115,7 +115,7 @@ class ViewEmployeeFragment : Fragment() {
                         val bundle = Bundle().apply {
                             putString("select_emp_id", data.userId) // selectedEmpId is the value you want to pass
                         }
-                        findNavController().navigate(R.id.registerFaceFragment, bundle)
+                        findNavController().navigate(R.id.faceRegisterFragment, bundle)
                     }
                 })
     }
