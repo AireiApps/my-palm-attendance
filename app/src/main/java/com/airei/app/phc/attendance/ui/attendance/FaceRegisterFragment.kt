@@ -69,51 +69,63 @@ class FaceRegisterFragment : Fragment() {
     private fun clickAction() {
         with(binding) {
             btnAdd.setOnClickListener {
-                if (faceHelper != null) {
-                    if (currentFaceImage != null && currentFaceEmbedding != null) {
-                        val locImage = currentFaceImage
-                        val locEmbedding = currentFaceEmbedding
-                        toggleDetection(false, faceHelper = faceHelper!!)
-                        val findMatch: List<MatchData>? = faceHelper?.findNearest(
-                            locEmbedding!!,
-                            (empBioList ?: listOf())
-                        )
-                        var isSameUser: Boolean = findMatch.isNullOrEmpty()
-                        if (empBioData != null && !findMatch.isNullOrEmpty()) {
-                            isSameUser = findMatch.firstOrNull()?.empUserId == empBioData?.empUserId
-                        }
-                        if (isSameUser) {
+                try {
+                    if (faceHelper != null) {
+                        if (currentFaceImage != null && currentFaceEmbedding != null) {
+                            val locImage = currentFaceImage
+                            val locEmbedding = currentFaceEmbedding
+                            toggleDetection(false, faceHelper = faceHelper!!)
+                            val findMatch: List<MatchData>? = faceHelper?.findNearest(
+                                locEmbedding!!,
+                                (empBioList ?: listOf())
+                            )?.filter { it.distance < 0.7 }
+                            var isSameUser: Boolean = findMatch.isNullOrEmpty()
+                            if (empBioData != null && !findMatch.isNullOrEmpty()) {
+                                isSameUser =
+                                    findMatch.firstOrNull()?.empUserId == empBioData?.empUserId
+                            }
+                            if (isSameUser) {
                                 var newEmpBioData = EmployeeBioTable(
-                                    empUserId = empId?:empData?.userId?:"",
+                                    empUserId = empId ?: empData?.userId ?: "",
                                     empFaceData = listOf(locEmbedding!!),
                                     apiType = AppPreferences.apiType
                                 )
                                 requireActivity().showEmpDialog(
                                     bitmap = locImage,
-                                    empName = empData?.name?:"unknown user [${empId}]",
-                                ){
-                                    if (empBioData != null){
+                                    empName = empData?.name ?: "unknown user [${empId}]",
+                                ) {
+                                    if (empBioData != null) {
                                         newEmpBioData = newEmpBioData.copy(
-                                            localId = empBioData?.localId?:0,
+                                            localId = empBioData?.localId ?: 0,
                                         )
                                     }
                                     viewModel.insertEmployeeBio(newEmpBioData)
-                                    Toast.makeText(requireContext(), "Face Registered Successfully", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Face Registered Successfully",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                     goBackPage()
                                 }
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Face Already Registered",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                toggleDetection(true, faceHelper = faceHelper!!)
+                            }
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Please capture a face",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            //toggleDetection(true, faceHelper = faceHelper!!)
                         }
-                        else{
-                            Toast.makeText(requireContext(), "Face Already Registered", Toast.LENGTH_SHORT).show()
-                            toggleDetection(true, faceHelper = faceHelper!!)
-                        }
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "Please capture a face",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        //toggleDetection(true, faceHelper = faceHelper!!)
                     }
+                }catch (e: Exception){
+                    e.printStackTrace()
                 }
             }
             // toggle detection

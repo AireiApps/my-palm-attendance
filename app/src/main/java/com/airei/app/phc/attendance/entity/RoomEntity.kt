@@ -86,5 +86,5 @@ data class EmpAttendanceTable(
     @ColumnInfo(name = "mod_date") @SerializedName("mod_date") var modDate: Long = System.currentTimeMillis(),
     @ColumnInfo(name = "upload_status") @SerializedName("upload_status") var uploadStatus: Boolean = false,
     @ColumnInfo(name = "online_id") @SerializedName("online_id") var onlineId: String = "",
-    @ColumnInfo(name = "api_type") @SerializedName("api_type") var apiType: String = "",
+    @ColumnInfo(name = "api_type") @SerializedName("api_type") var apiType: String = AppPreferences.apiType,
 )

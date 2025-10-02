@@ -168,9 +168,10 @@ class FaceRecognitionFragment : Fragment() {
         if (faceHelper != null) {
             val findEmpBioData = faceHelper?.findNearest(localEmb, empBioList ?: listOf())
             if (findEmpBioData != null && findEmpBioData.isNotEmpty()) {
-                val getBestMatch = findEmpBioData.maxByOrNull { it.distance < 0.6 }
-                if (getBestMatch != null) {
-                    detectionEmp = empDataList?.find { it.userId == getBestMatch.empUserId }
+                val getBestMatch = findEmpBioData.filter { it.distance < 0.6 }
+                Log.d(TAG, "findEmpBioData: ${findEmpBioData.maxByOrNull { "${it.empUserId}[${it.distance}]" }}}")
+                if (getBestMatch != null && getBestMatch.isNotEmpty()) {
+                    detectionEmp = empDataList?.find { it.userId == getBestMatch.first().empUserId }
                     if (detectionEmp != null) {
                         binding.tvStatus.text = "${detectionEmp!!.name} [${detectionEmp!!.userId}]"
                         lastLocation(detectionEmp!!)
@@ -231,9 +232,10 @@ class FaceRecognitionFragment : Fragment() {
 
     private fun saveAttendance(detectionEmpAttendance: EmpAttendanceTable) {
         viewModel.insertAttendance(detectionEmpAttendance)
+        val data = empDataList?.find { it.userId == detectionEmpAttendance.empUserId }
         viewScreenCtrl(
             SCREEN_STATUS,
-            "Attendance Saved Successfully For ${detectionEmpAttendance.empUserId}"
+            "Attendance Saved Successfully For \n ${data?.name} [${detectionEmpAttendance.empUserId}]"
         )
     }
 
@@ -295,7 +297,7 @@ class FaceRecognitionFragment : Fragment() {
                 )
                 llStatus.visibility = View.VISIBLE
             } else {
-                btn.text = getString(R.string.stop_attendance)
+                btn.text = getString(R.string.start_detection)
                 btn.backgroundTintList = ContextCompat.getColorStateList(
                     requireContext(), R.color.green
                 )
