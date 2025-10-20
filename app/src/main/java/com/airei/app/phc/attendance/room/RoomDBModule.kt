@@ -1,10 +1,7 @@
 package com.airei.app.phc.attendance.room
 
 import android.content.Context
-import com.airei.app.phc.attendance.room.dao.EmpAttendanceDao
-import com.airei.app.phc.attendance.room.dao.EmployeeBioDao
-import com.airei.app.phc.attendance.room.dao.EmployeeDao
-import com.airei.app.phc.attendance.room.dao.UserDao
+import com.airei.app.phc.attendance.room.dao.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,4 +29,18 @@ object RoomDBModule {
 
     @Provides
     fun provideEmpAttendanceDao(database: AppDatabase): EmpAttendanceDao = database.empAttendanceDao()
+
+    @Provides
+    fun provideEstateDao(database: AppDatabase): EstateDao = database.estateDao()
+
+    @Provides
+    fun provideDivisionDao(database: AppDatabase): DivisionDao = database.divisionDao()
+
+    @Provides
+    fun provideBlockDao(database: AppDatabase): BlockDao = database.blockDao()
+
+    @Provides
+    fun provideParcelDao(database: AppDatabase): ParcelDao = database.parcelDao()
+
+
 }

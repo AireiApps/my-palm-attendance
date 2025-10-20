@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.airei.app.phc.attendance.api.ApiRepository
 import com.airei.app.phc.attendance.api.ApiResponse
+import com.airei.app.phc.attendance.entity.AttendanceReq
+import com.airei.app.phc.attendance.entity.EmpFaceAccessReq
 import com.airei.app.phc.attendance.entity.MillLoginResponse
 import com.airei.app.phc.attendance.entity.PlantationLoginResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,6 +48,17 @@ class ApiViewModel @Inject constructor(
         }
     }
 
-    suspend fun getMillEmployeeList() = repository.getMillEmployeeList()
-    suspend fun getPlantationEmployeeList() = repository.getPlantationEmployeeList()
+    fun getMillEmployeeList() = repository.getMillEmployeeList()
+    fun getPlantationEmployeeList() = repository.getPlantationEmployeeList()
+
+    fun empFaceList() = repository.empFaceList()
+
+    fun saveEmpAttendance(data: AttendanceReq) = repository.saveEmpAttendance(data)
+    fun saveEmpFace(data: EmpFaceAccessReq) = repository.saveEmpFace(data)
+    fun estateList() = repository.estateList()
+    fun divisionList() = repository.divisionList()
+    fun blockList() = repository.blockList()
+    fun parcelList() = repository.parcelList()
+
+
 }

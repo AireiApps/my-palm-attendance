@@ -86,3 +86,56 @@ data class MillEmployeeResponse(
     @SerializedName("dept_id") val departmentId: String? = null,
     @SerializedName("image") val image: String? = null,
 )
+
+data class EmployeeFaceRes(
+    @SerializedName("user_id")val userId: String,
+    @SerializedName("face_access_code")val faceCode: String?,
+)
+
+data class OnlineData(
+    @SerializedName("db_id") val dbId: List<OnlineId>
+)
+
+data class OnlineId(
+    @SerializedName("online_id") val onlineId: String = "",
+    @SerializedName("job_id") val jobId: String = "",
+    @SerializedName("emp_user_id") val empUserId: String = "",
+    @SerializedName("user_id") val userId: String = ""
+)
+
+
+data class EstateRes(
+    @SerializedName("id") val id: String,
+    @SerializedName("estate_name") val estateName: String,
+    @SerializedName("hectare") val hectare: String
+)
+
+data class DivisionRes(
+    @SerializedName("id") val id: String,
+    @SerializedName("estate_id") val estateId: String,
+    @SerializedName("division_name") val divisionName: String,
+    @SerializedName("hectare") val hectare: String,
+    @SerializedName("estate_name") val estateName: String
+)
+
+data class BlockRes(
+    @SerializedName("id") val id: String,
+    @SerializedName("estate_id") val estateId: String,
+    @SerializedName("hectare") val hectare: String,
+    @SerializedName("division_id") val divisionId: String,
+    @SerializedName("block_name") val blockName: String?,
+    @SerializedName("estate_name") val estateName: String,
+    @SerializedName("division_name") val divisionName: String
+)
+
+data class ParcelRes(
+    @SerializedName("id") val id: String,
+    @SerializedName("estate_id") val estateId: String,
+    @SerializedName("division_id") val divisionId: String,
+    @SerializedName("block_id") val blockId: String,
+    @SerializedName("hectare") val hectare: String,
+    @SerializedName("block_name") val blockName: String?,
+    @SerializedName("division_name") val divisionName: String,
+    @SerializedName("estate_name") val estateName: String,
+    @SerializedName("parcel_name") val parcelName: String
+)

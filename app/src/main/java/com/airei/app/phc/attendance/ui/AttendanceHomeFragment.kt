@@ -1,6 +1,7 @@
 package com.airei.app.phc.attendance.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,9 @@ import com.airei.app.phc.attendance.databinding.FragmentAttendanceHomeBinding
 import com.airei.app.phc.attendance.utils.getTodayEndTimeMillis
 import com.airei.app.phc.attendance.utils.getTodayStartTimeMillis
 import com.airei.app.phc.attendance.viewmodel.RoomViewModel
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.Calendar
 
 
@@ -42,7 +46,7 @@ class AttendanceHomeFragment : Fragment() {
         setToolBar()
         dataObserve()
         clickActions()
-
+        deleteOldAttendance()
     }
 
     private fun dataObserve() {
@@ -114,6 +118,30 @@ class AttendanceHomeFragment : Fragment() {
 
             imgOption.setOnClickListener { view ->
                 findNavController().navigate(R.id.profileFragment)
+            }
+        }
+    }
+
+    private fun deleteOldAttendance() {
+        with(viewModel){
+            getAllAttendance().observe(viewLifecycleOwner) { atten ->
+                getAllAttendance().removeObserver {  }
+                atten.forEach { a ->
+                    val startDate = a.inDate // assuming it's in millis (Long)
+
+                    val recordDate = Instant.ofEpochMilli(startDate)
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate()
+
+                    val yesterday = LocalDate.now().minusDays(1)
+
+                    if (recordDate == yesterday && a.uploadStatus) {
+                        Log.d(TAG, "✅ Attendance is from yesterday and uploaded: ${a.empUserId}")
+                        deleteAttendance(a)
+                    } else {
+                        Log.d(TAG, "📅 Not yesterday and not uploaded: ${a.empUserId}")
+                    }
+                }
             }
         }
     }

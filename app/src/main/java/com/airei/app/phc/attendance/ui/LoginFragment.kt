@@ -81,7 +81,7 @@ class LoginFragment : Fragment() {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         saveLoginData(data)
-                                        findNavController().navigate(R.id.loadingFragment)
+                                        findNavController().navigate(R.id.onlineDataSyncFragment)
                                     } else {
                                         Toast.makeText(
                                             requireContext(),
@@ -145,7 +145,7 @@ class LoginFragment : Fragment() {
                                             "Plantation Login Success: ${data.username}",
                                             Toast.LENGTH_SHORT
                                         ).show()
-                                        findNavController().navigate(R.id.loadingFragment)
+                                        findNavController().navigate(R.id.onlineDataSyncFragment)
                                     } else {
                                         Toast.makeText(
                                             requireContext(),

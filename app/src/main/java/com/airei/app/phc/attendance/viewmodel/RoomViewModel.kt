@@ -50,6 +50,9 @@ class RoomViewModel @Inject constructor(
     fun deleteEmployeeList(apiType: String) = viewModelScope.launch {
         repository.deleteEmployeesByApiType(apiType)
     }
+    fun deleteAllEmployees() = viewModelScope.launch {
+        repository.deleteAllEmployees()
+    }
 
     fun getAllEmployees() = repository.allEmployees
 
@@ -66,12 +69,10 @@ class RoomViewModel @Inject constructor(
     fun updateEmployeeBio(employeeBio: EmployeeBioTable) = viewModelScope.launch {
         repository.updateEmployeeBio(employeeBio)
     }
-    fun deleteEmployeeBioById(empUserId: String) = viewModelScope.launch {
-        repository.deleteEmployeeBioById(empUserId)
+    fun deleteAllEmployeeBio() = viewModelScope.launch {
+        repository.deleteAllEmployeeBio()
     }
-    fun deleteEmployeeBiosByApiType(apiType: String) = viewModelScope.launch {
-        repository.deleteEmployeeBiosByApiType(apiType)
-    }
+
     fun getAllEmployeeBios(): LiveData<List<EmployeeBioTable>> = repository.allEmployeeBios
     fun getEmployeeBiosByApiType(apiType: String = AppPreferences.apiType): LiveData<List<EmployeeBioTable>> =
         repository.getEmployeeBiosByApiType(apiType)

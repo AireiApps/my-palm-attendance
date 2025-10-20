@@ -1,12 +1,13 @@
 package com.airei.app.phc.attendance.ui.attendance
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
@@ -16,7 +17,6 @@ import com.airei.app.phc.attendance.databinding.FragmentViewEmployee1Binding
 import com.airei.app.phc.attendance.entity.EmployeeBioTable
 import com.airei.app.phc.attendance.entity.EmployeeTable
 import com.airei.app.phc.attendance.viewmodel.RoomViewModel
-import kotlin.collections.filter
 
 class ViewEmployeeFragment : Fragment() {
     private var _binding: FragmentViewEmployee1Binding? = null
@@ -30,6 +30,18 @@ class ViewEmployeeFragment : Fragment() {
     private var loadingState = MutableLiveData<Pair<Boolean, Boolean>>(Pair(false, false))
 
     private var sortType = MutableLiveData<Int>(1)
+
+    /*
+    *   1 - office staff
+        2 - worker
+    * */
+    private val employeeTypes = listOf(
+        "Office Staff",
+        "Worker"
+    )
+
+    private val selectOption = MutableLiveData<String>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -48,7 +60,30 @@ class ViewEmployeeFragment : Fragment() {
                 }
             })
         setToolBar()
+        //setEmpTypeDropDown()
         observeData()
+    }
+
+    private fun setEmpTypeDropDown() {
+        with(binding) {
+            val adapter = ArrayAdapter(
+                requireActivity(),
+                android.R.layout.simple_dropdown_item_1line,
+                employeeTypes
+            )
+            etEmployeeType.setAdapter(adapter)
+            // ✅ Default selection = first item
+            if (employeeTypes.isNotEmpty()) {
+                etEmployeeType.setText(employeeTypes[1], false)
+                selectOption.postValue(employeeTypes[1])
+            }
+
+            // ✅ Handle selection change
+            etEmployeeType.setOnItemClickListener { _, _, position, _ ->
+                val selected = employeeTypes[position]
+                selectOption.postValue(selected)
+            }
+        }
     }
 
     private fun goBackPage() {
@@ -63,6 +98,18 @@ class ViewEmployeeFragment : Fragment() {
 
         sortType.observe(viewLifecycleOwner) {
             setEmployeeList(employeeTable, it)
+        }
+
+        selectOption.observe(viewLifecycleOwner) {
+            when (it) {
+                employeeTypes[0] -> {
+                    setEmployeeList(employeeTable.filter { e -> e.empType == "1" }.toMutableList())
+                }
+
+                employeeTypes[1] -> {
+                    setEmployeeList(employeeTable.filter { e -> e.empType == "2" }.toMutableList())
+                }
+            }
         }
 
         with(viewModel){
@@ -88,7 +135,7 @@ class ViewEmployeeFragment : Fragment() {
                 Log.i(TAG, "observeData: $it")
                 if (employeeTable.isNotEmpty()) {
                     binding.layoutNoData.visibility = View.GONE
-                    setEmployeeList(employeeTable)
+                    setEmpTypeDropDown()
                 }else{
                     binding.layoutNoData.visibility = View.VISIBLE
                 }

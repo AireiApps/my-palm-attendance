@@ -5,14 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.airei.app.phc.attendance.entity.EmpAttendanceTable
-import com.airei.app.phc.attendance.entity.EmployeeBioTable
-import com.airei.app.phc.attendance.entity.EmployeeTable
-import com.airei.app.phc.attendance.entity.UserTable
-import com.airei.app.phc.attendance.room.dao.EmpAttendanceDao
-import com.airei.app.phc.attendance.room.dao.EmployeeBioDao
-import com.airei.app.phc.attendance.room.dao.EmployeeDao
-import com.airei.app.phc.attendance.room.dao.UserDao
+import com.airei.app.phc.attendance.entity.*
+import com.airei.app.phc.attendance.room.dao.*
 
 @Database(
     entities = [
@@ -20,7 +14,11 @@ import com.airei.app.phc.attendance.room.dao.UserDao
         UserTable::class,
         EmployeeTable::class,
         EmployeeBioTable::class,
-        EmpAttendanceTable::class
+        EmpAttendanceTable::class,
+        EstateEntity::class,
+        DivisionEntity::class,
+        BlockEntity::class,
+        ParcelEntity::class
     ],
     version = 1, // No version bump
     exportSchema = false
@@ -33,6 +31,10 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun employeeDao(): EmployeeDao
     abstract fun employeeBioDao(): EmployeeBioDao
     abstract fun empAttendanceDao(): EmpAttendanceDao
+    abstract fun estateDao(): EstateDao
+    abstract fun divisionDao(): DivisionDao
+    abstract fun blockDao(): BlockDao
+    abstract fun parcelDao(): ParcelDao
 
     companion object {
         @Volatile

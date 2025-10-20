@@ -13,4 +13,14 @@ object ApiDetails {
     const val MILL_EMPLOYEE_LIST = "employee_list"
     const val PLANTATION_EMPLOYEE_LIST = "userList"
 
+    const val EMP_FACE_LIST = "faceAccessList"
+
+    const val EMP_ATTENDANCE_SAVE = "attendance_save"
+    const val EMP_FACE_SAVE = "update_face_code"
+
+    const val ESTATE_LIST = "estateList"
+    const val DIVISION_LIST = "divisionList"
+    const val BLOCK_LIST = "blocksList"
+    const val PARCEL_LIST = "parcelList"
+
 }

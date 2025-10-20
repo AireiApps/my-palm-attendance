@@ -14,6 +14,33 @@
         tools:layout_constraintStart_toStartOf="parent"
         tools:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/layout_dashboard_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mirage"
+        android:orientation="vertical"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_tool_bar">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_employee_type"
+            style="@style/NoLabelDropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/et_employee_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/select_employee_type"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_employee"
         android:layout_width="match_parent"
@@ -26,7 +53,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_tool_bar"
+        app:layout_constraintTop_toBottomOf="@+id/layout_dashboard_filter"
         tools:listitem="@layout/item_emp" />
 
     <LinearLayout
@@ -36,11 +63,11 @@
         android:background="@drawable/img_app_bg"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_tool_bar">
+        app:layout_constraintTop_toBottomOf="@+id/layout_dashboard_filter">
 
         <ImageView style="@style/EmptyImageViewStyle" />
 

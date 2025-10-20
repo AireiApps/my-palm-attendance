@@ -59,7 +59,11 @@ class ProfileFragment : Fragment() {
 
             btnSyncData.setOnClickListener {
                 AppPreferences.isDataDownloaded = false
-                findNavController().navigate(R.id.loadingFragment)
+                findNavController().navigate(R.id.onlineDataSyncFragment)
+            }
+
+            btnUploadData.setOnClickListener {
+                findNavController().navigate(R.id.uploadDataFragment)
             }
 
             btnIpConfig.setOnClickListener {
@@ -67,7 +71,7 @@ class ProfileFragment : Fragment() {
                     requireActivity(), preSelectedMode = PLANTATION_API
                 ) { mode ->
                     val oldMode = AppPreferences.apiType
-                    Toast.makeText(requireContext(), "Selected: $mode", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(requireContext(), "Selected: $mode", Toast.LENGTH_SHORT).show()
                     if (oldMode != mode) {
                         AppPreferences.apiType = mode
                         showRestartApiAlert(requireActivity()) {

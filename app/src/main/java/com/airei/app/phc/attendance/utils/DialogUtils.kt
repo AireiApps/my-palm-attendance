@@ -1,23 +1,33 @@
 package com.airei.app.phc.attendance.utils
 
 import android.app.AlarmManager
+import android.app.Dialog
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.AdapterView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.graphics.drawable.toDrawable
 import com.airei.app.phc.attendance.R
+import com.airei.app.phc.attendance.adapter.CustomSpinnerAdapter
 import com.airei.app.phc.attendance.common.AppPreferences
 import com.airei.app.phc.attendance.common.MILL_API
 import com.airei.app.phc.attendance.common.PLANTATION_API
 import com.airei.app.phc.attendance.databinding.DialogApiSelectBinding
 import com.airei.app.phc.attendance.databinding.LayoutCommonMsgBinding
 import com.airei.app.phc.attendance.databinding.LayoutEmpSaveBinding
+import com.airei.app.phc.attendance.databinding.LayoutSpinnerOptionBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.util.Locale
 import kotlin.system.exitProcess
 
 fun showServerSelectDialog(
@@ -192,3 +202,56 @@ fun Context.showEmpDialog(
     dialog.show()
 }
 
+private var SelectionDialog: Dialog? = null
+
+fun showFieldSelectionDialog(
+    context: Context,
+    txtTitle: String,
+    fieldList: List<String>,
+    edtField: AppCompatEditText
+) {
+    if (SelectionDialog != null) {
+        if (SelectionDialog!!.isShowing) {
+            SelectionDialog!!.dismiss()
+        }
+    }
+    val binding = LayoutSpinnerOptionBinding.inflate(LayoutInflater.from(context))
+    SelectionDialog = Dialog(context)
+    if (SelectionDialog != null) {
+        SelectionDialog!!.setContentView(binding.root)
+        SelectionDialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        SelectionDialog!!.show()
+
+        binding.txtTitle.text = txtTitle
+        binding.txtEmpty.visibility = View.GONE
+        binding.btnClose.setOnClickListener { SelectionDialog!!.dismiss() }
+
+        val spinnerFieldAdapter =
+            CustomSpinnerAdapter(
+                fieldList,
+                object : CustomSpinnerAdapter.OnSpinnerItemClickListener {
+                    override fun onItemClick(item: String) {
+                        edtField.setText(item)
+                        SelectionDialog!!.dismiss()
+                    }
+                })
+
+        binding.lvSpinner.adapter = spinnerFieldAdapter
+
+        binding.edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                spinnerFieldAdapter.filter.filter(s.toString().lowercase(Locale.getDefault()))
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        binding.lvSpinner.onItemClickListener =
+            AdapterView.OnItemClickListener { _, _, position, _ ->
+                edtField.setText(fieldList[position])
+                SelectionDialog!!.dismiss()
+            }
+    }
+}

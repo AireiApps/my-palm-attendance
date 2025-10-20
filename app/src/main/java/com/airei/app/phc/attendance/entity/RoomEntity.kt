@@ -26,7 +26,7 @@ data class UserTable(
 @Entity(tableName = "emp_bio_table")
 @TypeConverters(FloatArrayConverter::class)
 data class EmployeeBioTable(
-    @PrimaryKey @ColumnInfo(name = "local_id") val localId: Int = 0,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "local_id") val localId: Int = 0,
     @ColumnInfo(name = "emp_user_id") @SerializedName("emp_user_id") val empUserId: String,
     @ColumnInfo("emp_face_data") @SerializedName("emp_face_data") var empFaceData: List<FloatArray> = listOf(),
     @ColumnInfo("upload_status") @SerializedName("upload_status") var uploadStatus: Boolean = false,
@@ -88,3 +88,45 @@ data class EmpAttendanceTable(
     @ColumnInfo(name = "online_id") @SerializedName("online_id") var onlineId: String = "",
     @ColumnInfo(name = "api_type") @SerializedName("api_type") var apiType: String = AppPreferences.apiType,
 )
+
+@Entity(tableName = "estate_table")
+data class EstateEntity(
+    @PrimaryKey @ColumnInfo(name = "id") val id: String,
+    @ColumnInfo(name = "estate_name") val estateName: String,
+    @ColumnInfo(name = "hectare") val hectare: String
+)
+
+@Entity(tableName = "division_table")
+data class DivisionEntity(
+    @PrimaryKey @ColumnInfo(name = "id") val id: String,
+    @ColumnInfo(name = "estate_id") val estateId: String,
+    @ColumnInfo(name = "division_name") val divisionName: String,
+    @ColumnInfo(name = "hectare") val hectare: String,
+    @ColumnInfo(name = "estate_name") val estateName: String
+)
+
+@Entity(tableName = "block_table")
+data class BlockEntity(
+    @PrimaryKey @ColumnInfo(name = "id") val id: String,
+    @ColumnInfo(name = "estate_id") val estateId: String,
+    @ColumnInfo(name = "division_id") val divisionId: String,
+    @ColumnInfo(name = "block_name") val blockName: String,
+    @ColumnInfo(name = "hectare") val hectare: String,
+    @ColumnInfo(name = "estate_name") val estateName: String,
+    @ColumnInfo(name = "division_name") val divisionName: String
+)
+
+@Entity(tableName = "parcel_table")
+data class ParcelEntity(
+    @PrimaryKey @ColumnInfo(name = "id") val id: String,
+    @ColumnInfo(name = "estate_id") val estateId: String,
+    @ColumnInfo(name = "division_id") val divisionId: String,
+    @ColumnInfo(name = "block_id") val blockId: String,
+    @ColumnInfo(name = "parcel_name") val parcelName: String,
+    @ColumnInfo(name = "hectare") val hectare: String,
+    @ColumnInfo(name = "estate_name") val estateName: String,
+    @ColumnInfo(name = "division_name") val divisionName: String,
+    @ColumnInfo(name = "block_name") val blockName: String
+)
+
+

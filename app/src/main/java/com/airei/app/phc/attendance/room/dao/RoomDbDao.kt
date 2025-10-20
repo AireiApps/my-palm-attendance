@@ -9,9 +9,13 @@ import androidx.room.Query
 import androidx.room.Update
 import com.airei.app.phc.attendance.api.ApiDetails
 import com.airei.app.phc.attendance.common.AppPreferences
+import com.airei.app.phc.attendance.entity.BlockEntity
+import com.airei.app.phc.attendance.entity.DivisionEntity
 import com.airei.app.phc.attendance.entity.EmpAttendanceTable
 import com.airei.app.phc.attendance.entity.EmployeeBioTable
 import com.airei.app.phc.attendance.entity.EmployeeTable
+import com.airei.app.phc.attendance.entity.EstateEntity
+import com.airei.app.phc.attendance.entity.ParcelEntity
 import com.airei.app.phc.attendance.entity.UserTable
 
 @Dao
@@ -42,6 +46,9 @@ interface EmployeeDao {
     // Delete employees by apiType
     @Query("DELETE FROM employee_table WHERE api_type = :apiType")
     suspend fun deleteByApiType(apiType: String)
+    // Delete all records from employee_table
+    @Query("DELETE FROM employee_table")
+    suspend fun deleteAllEmployees()
     // Get all employees filtered by apiType as LiveData
     @Query("SELECT * FROM employee_table WHERE api_type = :apiType")
     fun getEmployeesByApiType(apiType: String = AppPreferences.apiType): LiveData<List<EmployeeTable>>
@@ -62,13 +69,9 @@ interface EmployeeBioDao {
     @Update
     suspend fun updateEmployeeBio(employeeBio: EmployeeBioTable)
 
-    // Delete by empUserId
-    @Query("DELETE FROM emp_bio_table WHERE emp_user_id = :empUserId")
-    suspend fun deleteByUserId(empUserId: String)
-
-    // Delete all records for a specific apiType
-    @Query("DELETE FROM emp_bio_table WHERE api_type = :apiType")
-    suspend fun deleteByApiType(apiType: String)
+    // Delete all records
+    @Query("DELETE FROM emp_bio_table")
+    suspend fun deleteAllEmployeeBio()
 
     // Get all employee bios as LiveData
     @Query("SELECT * FROM emp_bio_table")
@@ -94,6 +97,10 @@ interface EmpAttendanceDao {
     @Query("SELECT * FROM emp_attendance_table WHERE api_type = :apiType ORDER BY in_date DESC")
     fun getAllAttendance(apiType: String): LiveData<List<EmpAttendanceTable>>
 
+    // Delete all records
+    @Query("DELETE FROM emp_attendance_table")
+    suspend fun deleteAllAttendance()
+
     @Query("""
     SELECT * FROM emp_attendance_table 
     WHERE in_date >= :startTime 
@@ -107,5 +114,53 @@ interface EmpAttendanceDao {
         apiType: String = AppPreferences.apiType
     ): LiveData<List<EmpAttendanceTable>>
 
-
 }
+
+@Dao
+interface EstateDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertList(list: List<EstateEntity>)
+
+    @Query("DELETE FROM estate_table")
+    suspend fun deleteAll()
+
+    @Query("SELECT * FROM estate_table")
+    fun getAll(): LiveData<List<EstateEntity>>
+}
+
+@Dao
+interface DivisionDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertList(list: List<DivisionEntity>)
+
+    @Query("DELETE FROM division_table")
+    suspend fun deleteAll()
+
+    @Query("SELECT * FROM division_table")
+    fun getAll(): LiveData<List<DivisionEntity>>
+}
+
+@Dao
+interface BlockDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertList(list: List<BlockEntity>)
+
+    @Query("DELETE FROM block_table")
+    suspend fun deleteAll()
+
+    @Query("SELECT * FROM block_table")
+    fun getAll(): LiveData<List<BlockEntity>>
+}
+
+@Dao
+interface ParcelDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertList(list: List<ParcelEntity>)
+
+    @Query("DELETE FROM parcel_table")
+    suspend fun deleteAll()
+
+    @Query("SELECT * FROM parcel_table")
+    fun getAll(): LiveData<List<ParcelEntity>>
+}
+

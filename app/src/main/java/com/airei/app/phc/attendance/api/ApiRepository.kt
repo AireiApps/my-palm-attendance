@@ -1,6 +1,7 @@
 package com.airei.app.phc.attendance.api
 
-import com.airei.app.phc.attendance.entity.MillEmployeeResponse
+import com.airei.app.phc.attendance.entity.AttendanceReq
+import com.airei.app.phc.attendance.entity.EmpFaceAccessReq
 import com.airei.app.phc.attendance.entity.MillLoginResponse
 import com.airei.app.phc.attendance.entity.PlantationLoginResponse
 import javax.inject.Inject
@@ -38,6 +39,15 @@ class ApiRepository @Inject constructor(
         }
     }
 
-    suspend fun getMillEmployeeList()= apiService.getMillEmployeeList()
-    suspend fun getPlantationEmployeeList()= apiService.getPlantationEmployeeList()
+    fun getMillEmployeeList()= apiService.getMillEmployeeList()
+    fun getPlantationEmployeeList()= apiService.getPlantationEmployeeList()
+
+    fun empFaceList() = apiService.empFaceList()
+    fun saveEmpAttendance(data: AttendanceReq) = apiService.saveEmpAttendance(data)
+    fun saveEmpFace(data: EmpFaceAccessReq) = apiService.saveEmpFace(data)
+    fun estateList() = apiService.estateList()
+    fun divisionList() = apiService.divisionList()
+    fun blockList() = apiService.blockList()
+    fun parcelList() = apiService.parcelList()
+
 }

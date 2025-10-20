@@ -26,31 +26,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPalmPHCAttendance"
         tools:ignore="DataExtractionRules">
-        <activity
-            android:name=".SplashActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:launchMode="singleInstance"
-            android:screenOrientation="locked"
-            android:theme="@style/Theme.MyApp.Splash"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="true"
-            tools:ignore="DiscouragedApi">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:launchMode="singleInstance"
+            android:exported="true"
+            android:enableOnBackInvokedCallback="true"
             android:screenOrientation="locked"
-            android:theme="@style/Theme.MyApp.Splash"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="true">
 
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="DiscouragedApi"
+            tools:targetApi="33">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
+
     </application>
 
 </manifest>

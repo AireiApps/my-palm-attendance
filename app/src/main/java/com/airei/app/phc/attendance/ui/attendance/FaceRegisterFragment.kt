@@ -97,6 +97,8 @@ class FaceRegisterFragment : Fragment() {
                                     if (empBioData != null) {
                                         newEmpBioData = newEmpBioData.copy(
                                             localId = empBioData?.localId ?: 0,
+                                            uploadStatus = false,
+                                            onlineId = ""
                                         )
                                     }
                                     viewModel.insertEmployeeBio(newEmpBioData)

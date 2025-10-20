@@ -3,6 +3,7 @@ package com.airei.app.phc.attendance
 import android.Manifest
 import android.content.Intent
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -43,6 +44,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Log.d(TAG, "onCreate: ")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setScreenOrientation()
@@ -54,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         setNavHostFragment()
         //setBottomNavy()
     }
+
 
     private fun checkPermissions(): Boolean {
         return permissions.all {
@@ -109,24 +113,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setScreenOrientation() {
-        requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = SCREEN_ORIENTATION_UNSPECIFIED
     }
 
     private fun setNavHostFragment() {
         Log.d(TAG, "setNavHostFragment: ")
         navController =
             (supportFragmentManager.findFragmentById(binding.navHostFragment.id) as NavHostFragment).navController
-        if (AppPreferences.loginId == ""){
-            navController.navigate(R.id.loginFragment)
-        }else{
-            if (AppPreferences.isDataDownloaded){
-                navController.navigate(R.id.attendanceHomeFragment)
-            }else{
-                navController.navigate(R.id.loadingFragment)
-            }
-
+        // Check if current fragment is already the same
+        if (navController.currentDestination?.id != R.id.splashFragment) {
+            navController.navigate(R.id.splashFragment)
+            Log.d(TAG, "Navigating to ${R.id.splashFragment}")
+        } else {
+            Log.d(TAG, "Already on destination ${R.id.splashFragment}, skip navigation")
         }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

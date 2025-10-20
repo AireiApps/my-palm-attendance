@@ -56,5 +56,18 @@
     <string name="no_face_detected">No face detected</string>
     <string name="multiple_faces_detected">" Multiple faces detected"</string>
     <string name="no_match_found">No match found</string>
+    <string name="select_employee">Select Employee</string>
+    <string name="select_employee_type">Select Employee Type</string>
+    <string name="no_offline_data">No Offline Data</string>
+    <string name="try_again">Try Again</string>
+    <string name="back">Back</string>
+    <string name="uploading_data">Uploading data</string>
+    <string name="upload_data">Upload Data</string>
+    <string name="no_data_to_upload">No data to upload</string>
+    <string name="start_uploading">Start Uploading</string>
+    <string name="select_estate">Select Estate</string>
+    <string name="select_division">Select Division</string>
+    <string name="select_block">Delect Block</string>
+    <string name="search">search</string>
 
 </resources>
