@@ -96,7 +96,7 @@
                     android:text="@string/change_pass"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:textStyle="bold"
+                    android:visibility="gone"                    android:textStyle="bold"
                     app:backgroundTint="@null" />
 
                 <com.google.android.material.button.MaterialButton

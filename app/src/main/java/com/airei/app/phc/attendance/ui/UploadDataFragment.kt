@@ -156,6 +156,9 @@ class UploadDataFragment : Fragment() {
                 } else {
                     binding.emptyLayout.visibility = View.VISIBLE
                     binding.uploadLayout.visibility = View.GONE
+                    Toast.makeText(
+                        requireContext(), getString(R.string.no_data_to_upload), Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

@@ -88,7 +88,7 @@ fun MillEmployeeResponse.toEmployeeTable(): EmployeeTable {
 fun PlantationEmployeeResponse.toEmployeeTable(): EmployeeTable {
     return EmployeeTable(
         userId = this.userId,
-        empCode = this.empCode,
+        empCode = this.empCode?:"",
         empType = this.empType,
         empTypeName = this.empTypeName,
         name = this.name,

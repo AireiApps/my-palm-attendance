@@ -19,11 +19,16 @@ class ApiViewModel @Inject constructor(
     private val repository: ApiRepository
 ) : ViewModel() {
 
-    private val _millLoginState = MutableLiveData<Result<ApiResponse<MillLoginResponse>?>>()
-    val millLoginState: LiveData<Result<ApiResponse<MillLoginResponse>?>> = _millLoginState
+    private val _millLoginState = MutableLiveData<Result<ApiResponse<MillLoginResponse>?>?>()
+    val millLoginState: MutableLiveData<Result<ApiResponse<MillLoginResponse>?>?> = _millLoginState
 
-    private val _plantationLoginState = MutableLiveData<Result<ApiResponse<PlantationLoginResponse>?>>()
-    val plantationLoginState: LiveData<Result<ApiResponse<PlantationLoginResponse>?>> = _plantationLoginState
+    private val _plantationLoginState = MutableLiveData<Result<ApiResponse<PlantationLoginResponse>?>?>()
+    val plantationLoginState: MutableLiveData<Result<ApiResponse<PlantationLoginResponse>?>?> = _plantationLoginState
+
+    fun clearLogin(){
+        _millLoginState.value = null
+        _plantationLoginState.value = null
+    }
 
 
     fun loginUserMill(millCode: String, username: String, password: String) {

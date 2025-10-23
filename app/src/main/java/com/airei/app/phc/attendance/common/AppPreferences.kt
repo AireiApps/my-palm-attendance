@@ -63,9 +63,6 @@ object SecureCipher {
     }
 }
 
-const val MILL_API = ApiDetails.MILL_API
-const val PLANTATION_API = ApiDetails.PLANTATION_API
-
 object AppPreferences {
 
     private const val PREF_NAME = "phc_attendance"

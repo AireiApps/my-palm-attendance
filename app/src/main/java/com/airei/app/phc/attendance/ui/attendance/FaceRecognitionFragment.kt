@@ -17,16 +17,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.airei.app.phc.attendance.R
+import com.airei.app.phc.attendance.api.ApiDetails.MILL_API
+import com.airei.app.phc.attendance.api.ApiDetails.PLANTATION_API
 import com.airei.app.phc.attendance.common.AppPreferences
 import com.airei.app.phc.attendance.common.FaceRecognitionHelper
-import com.airei.app.phc.attendance.common.MILL_API
-import com.airei.app.phc.attendance.common.PLANTATION_API
 import com.airei.app.phc.attendance.databinding.FragmentFaceRecognitionBinding
 import com.airei.app.phc.attendance.entity.AttendanceStatus
 import com.airei.app.phc.attendance.entity.BlockEntity
@@ -344,9 +340,8 @@ class FaceRecognitionFragment : Fragment() {
                 outStatus = loginStatus.toString(),
                 userId = AppPreferences.loginId,
                 uploadStatus = false,
-                onlineId = ""
+                //onlineId = ""
             )
-            saveAttendance(detectionEmpAttendance!!)
         } else {
             detectionEmpAttendance = EmpAttendanceTable(
                 empUserId = findEmp.userId,
@@ -358,7 +353,11 @@ class FaceRecognitionFragment : Fragment() {
                 uploadStatus = false,
                 onlineId = ""
             )
+        }
+        if(AppPreferences.apiType == PLANTATION_API.toString()){
             setLayoutAreaInfo()
+        }else{
+            saveAttendance(detectionEmpAttendance!!)
         }
         Log.d(TAG, "makeAttendance: detectionEmpAttendance $detectionEmpAttendance")
 

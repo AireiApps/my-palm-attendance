@@ -96,7 +96,6 @@ dependencies {
 
     // swipe refresh layout
     implementation(libs.androidx.swiperefreshlayout)
-    //Room
     // Room DB
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)

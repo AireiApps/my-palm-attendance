@@ -50,9 +50,8 @@ data class PlantationLoginResponse(
 )
 
 data class PlantationEmployeeResponse(
-
     @SerializedName("user_id") val userId: String,
-    @SerializedName("emp_code") val empCode: String,
+    @SerializedName("emp_code") val empCode: String?,
     @SerializedName("emp_type") val empType: String,
     @SerializedName("emp_type_name") val empTypeName: String,
     @SerializedName("name") val name: String,

@@ -17,7 +17,7 @@ class ApiRepository @Inject constructor(
         username: String,
         password: String,
     ): ApiResponse<MillLoginResponse>? {
-        val response = apiService.loginUserMill(millCode, username, password)
+        val response = apiService.loginUserMill(username, password)
         if (response.isSuccessful) {
             return response.body()
         } else {

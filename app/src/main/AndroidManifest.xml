@@ -6,7 +6,8 @@
 
     <uses-feature android:name="android.hardware.camera.any" />
     <uses-feature android:name="android.hardware.camera.front" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera.autofocus"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -15,7 +16,7 @@
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         android:maxSdkVersion="30"
-        tools:ignore="ScopedStorage" />
+        tools:ignore="AllFilesAccessPolicy,ScopedStorage" />
 
     <application
         android:name=".MyPalmAttendanceApp"
@@ -33,7 +34,6 @@
             android:exported="true"
             android:enableOnBackInvokedCallback="true"
             android:screenOrientation="locked"
-
             android:windowSoftInputMode="adjustPan"
             tools:ignore="DiscouragedApi"
             tools:targetApi="33">

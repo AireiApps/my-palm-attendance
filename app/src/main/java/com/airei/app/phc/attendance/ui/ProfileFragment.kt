@@ -12,7 +12,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.airei.app.phc.attendance.R
 import com.airei.app.phc.attendance.common.AppPreferences
-import com.airei.app.phc.attendance.common.PLANTATION_API
 import com.airei.app.phc.attendance.databinding.FragmentProfileBinding
 import com.airei.app.phc.attendance.entity.UserTable
 import com.airei.app.phc.attendance.utils.restartApp
@@ -68,11 +67,13 @@ class ProfileFragment : Fragment() {
 
             btnIpConfig.setOnClickListener {
                 dialog = showServerSelectDialog(
-                    requireActivity(), preSelectedMode = PLANTATION_API
+                    requireActivity(), preSelectedMode = if(AppPreferences.apiType == "") null else AppPreferences.apiType
                 ) { mode ->
                     val oldMode = AppPreferences.apiType
                     //Toast.makeText(requireContext(), "Selected: $mode", Toast.LENGTH_SHORT).show()
                     if (oldMode != mode) {
+                        AppPreferences.loginId = ""
+                        AppPreferences.isDataDownloaded = false
                         AppPreferences.apiType = mode
                         showRestartApiAlert(requireActivity()) {
                             Toast.makeText(requireContext(), "Restarting App", Toast.LENGTH_SHORT)

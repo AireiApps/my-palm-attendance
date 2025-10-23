@@ -13,10 +13,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import com.airei.app.phc.attendance.R
 import com.airei.app.phc.attendance.api.ApiDetails
+import com.airei.app.phc.attendance.api.ApiDetails.MILL_API
+import com.airei.app.phc.attendance.api.ApiDetails.PLANTATION_API
 import com.airei.app.phc.attendance.api.ApiResponse
 import com.airei.app.phc.attendance.common.AppPreferences
-import com.airei.app.phc.attendance.common.MILL_API
-import com.airei.app.phc.attendance.common.PLANTATION_API
 import com.airei.app.phc.attendance.databinding.FragmentOnlineDataSyncBinding
 import com.airei.app.phc.attendance.entity.BlockRes
 import com.airei.app.phc.attendance.entity.DivisionRes
@@ -39,7 +39,6 @@ import kotlin.getValue
 class OnlineDataSyncFragment : Fragment() {
     private var _binding: FragmentOnlineDataSyncBinding? = null
     private val binding get() = _binding!!
-
     private val apiViewModel: ApiViewModel by activityViewModels()
     private val roomViewModel: RoomViewModel by activityViewModels()
     private val masterViewModel: MasterDataViewModel by activityViewModels()
@@ -82,6 +81,7 @@ class OnlineDataSyncFragment : Fragment() {
                     goBackPage()
                 }
             })
+        apiViewModel.clearLogin()
         Log.d(TAG, "onViewCreated: ")
         setToolBar("Loading", false, false)
         observeApiLoadingStatus()
@@ -120,13 +120,9 @@ class OnlineDataSyncFragment : Fragment() {
                 if (response.isSuccessful && response.body()?.httpcode == 200) {
                     val data = response.body()?.data ?: emptyList()
                     Log.d(TAG, "✅ Estates received: ${data.size}")
-                    if (data.isEmpty()){
-
-                    }else{
-                        val convertData = data.map { d-> d.toEntity() }
-                        masterViewModel.deleteAllEstates()
-                        masterViewModel.insertEstates(convertData)
-                    }
+                    val convertData = data.map { d-> d.toEntity() }
+                    masterViewModel.deleteAllEstates()
+                    masterViewModel.insertEstates(convertData)
                     setApiLoading(ESTATE, true)
                 } else {
                     Log.e(TAG, "❌ Estates error: ${response.code()} - ${response.message()}")
@@ -152,13 +148,9 @@ class OnlineDataSyncFragment : Fragment() {
                 if (response.isSuccessful && response.body()?.httpcode == 200) {
                     val data = response.body()?.data ?: emptyList()
                     Log.d(TAG, "✅ Divisions received: ${data.size}")
-                    if (data.isEmpty()){
-
-                    }else{
-                        val convertData = data.map { d-> d.toEntity() }
-                        masterViewModel.deleteAllDivisions()
-                        masterViewModel.insertDivisions(convertData)
-                    }
+                    val convertData = data.map { d-> d.toEntity() }
+                    masterViewModel.deleteAllDivisions()
+                    masterViewModel.insertDivisions(convertData)
                     setApiLoading(DIVISION, true)
                 } else {
                     Log.e(TAG, "❌ Divisions error: ${response.code()} - ${response.message()}")
@@ -184,13 +176,9 @@ class OnlineDataSyncFragment : Fragment() {
                 if (response.isSuccessful && response.body()?.httpcode == 200) {
                     val data = response.body()?.data ?: emptyList()
                     Log.d(TAG, "✅ Blocks received: ${data.size}")
-                    if (data.isEmpty()){
-
-                    }else{
-                        val convertData = data.map { d-> d.toEntity() }
-                        masterViewModel.deleteAllBlocks()
-                        masterViewModel.insertBlocks(convertData)
-                    }
+                    val convertData = data.map { d-> d.toEntity() }
+                    masterViewModel.deleteAllBlocks()
+                    masterViewModel.insertBlocks(convertData)
                     setApiLoading(BLOCK, true)
                 } else {
                     Log.e(TAG, "❌ Blocks error: ${response.code()} - ${response.message()}")
@@ -216,13 +204,9 @@ class OnlineDataSyncFragment : Fragment() {
                 if (response.isSuccessful && response.body()?.httpcode == 200) {
                     val data = response.body()?.data ?: emptyList()
                     Log.d(TAG, "✅ Blocks received: ${data.size}")
-                    if (data.isEmpty()){
-
-                    }else{
-                        val convertData = data.map { d-> d.toEntity() }
-                        masterViewModel.deleteAllParcels()
-                        masterViewModel.insertParcels(convertData)
-                    }
+                    val convertData = data.map { d-> d.toEntity() }
+                    masterViewModel.deleteAllParcels()
+                    masterViewModel.insertParcels(convertData)
                     setApiLoading(PARCEL, true)
                 } else {
                     Log.e(TAG, "❌ Parcels error: ${response.code()} - ${response.message()}")
@@ -249,8 +233,8 @@ class OnlineDataSyncFragment : Fragment() {
                     val faceList = (response.body()?.data ?: emptyList()).filter { f -> !f.faceCode.isNullOrEmpty() }
                     Log.d(TAG, "API : ✅ Employee face list received: ${faceList.size}")
                     // ✅ Mark success
+                    roomViewModel.deleteAllEmployeeBio()
                     if (!faceList.isEmpty()){
-                        roomViewModel.deleteAllEmployeeBio()
                         val convertData = faceList.map { d-> d.toEmployeeFaceTable() }
                         convertData.forEach { fd->
                             roomViewModel.insertEmployeeBio(fd)
@@ -271,6 +255,35 @@ class OnlineDataSyncFragment : Fragment() {
             }
         })
     }
+    private fun fetchEmpMillList() {
+        apiViewModel.getMillEmployeeList().enqueue(object :
+            Callback<ApiResponse<List<MillEmployeeResponse>>> {
+            override fun onResponse(
+                call: Call<ApiResponse<List<MillEmployeeResponse>>>,
+                response: Response<ApiResponse<List<MillEmployeeResponse>>>
+            ) {
+                if (response.isSuccessful && response.body()?.httpcode == 200) {
+                    val employees = response.body()?.data ?: emptyList()
+                    Log.d(TAG, "API : ✅ Employee list received: ${employees.size}")
+                    val convertData = employees.map { d-> d.toEmployeeTable() }
+                    roomViewModel.deleteAllEmployees()
+                    if (!convertData.isEmpty()){
+                        roomViewModel.insertEmployeeList(convertData)
+                    }
+                    setApiLoading(EMP_DATA, true)
+                } else {
+                    Log.e(TAG, "API : ⚠️ Error fetching employee list")
+                    setApiLoading(EMP_DATA, false)
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse<List<MillEmployeeResponse>>>, t: Throwable) {
+                Log.e(TAG, "API : ⚠️ Error fetching employee list: ${t.message}")
+                setApiLoading(EMP_DATA, false)
+            }
+        })
+
+    }
 
     private fun fetchEmpPlantationList() {
 
@@ -288,8 +301,8 @@ class OnlineDataSyncFragment : Fragment() {
 
                     val convertData = employees.map { d-> d.toEmployeeTable() }
 
+                    roomViewModel.deleteAllEmployees()
                     if (!convertData.isEmpty()){
-                        roomViewModel.deleteAllEmployees()
                         roomViewModel.insertEmployeeList(convertData)
                     }
 
@@ -313,30 +326,7 @@ class OnlineDataSyncFragment : Fragment() {
         })
     }
 
-    private fun fetchEmpMillList() {
-        apiViewModel.getMillEmployeeList().enqueue(object :
-            Callback<ApiResponse<List<MillEmployeeResponse>>> {
-            override fun onResponse(
-                call: Call<ApiResponse<List<MillEmployeeResponse>>>,
-                response: Response<ApiResponse<List<MillEmployeeResponse>>>
-            ) {
-                if (response.isSuccessful && response.body()?.httpcode == 200) {
-                    val employees = response.body()?.data ?: emptyList()
-                    Log.d(TAG, "API : ✅ Employee list received: ${employees.size}")
-                    setApiLoading(EMP_DATA, true)
-                } else {
-                    Log.e(TAG, "API : ⚠️ Error fetching employee list")
-                    setApiLoading(EMP_DATA, false)
-                }
-            }
 
-            override fun onFailure(call: Call<ApiResponse<List<MillEmployeeResponse>>>, t: Throwable) {
-                Log.e(TAG, "API : ⚠️ Error fetching employee list: ${t.message}")
-                setApiLoading(EMP_DATA, false)
-            }
-        })
-
-    }
 
     private fun observeApiLoadingStatus() {
         apiLoadingStatus.observe(viewLifecycleOwner) { statusMap ->

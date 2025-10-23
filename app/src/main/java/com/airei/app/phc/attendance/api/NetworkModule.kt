@@ -2,8 +2,8 @@ package com.airei.app.phc.attendance.api
 
 import android.annotation.SuppressLint
 import android.util.Log
+import com.airei.app.phc.attendance.api.ApiDetails.PLANTATION_API
 import com.airei.app.phc.attendance.common.AppPreferences
-import com.airei.app.phc.attendance.common.PLANTATION_API
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -20,6 +20,7 @@ import javax.inject.Singleton
 object NetworkModule {
 
     val apiType = AppPreferences.apiType
+
     val baseUrl = if (apiType == PLANTATION_API) ApiDetails.PLANTATION_BASE_URL else ApiDetails.MILL_BASE_URL
 
     @Provides

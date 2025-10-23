@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.airei.app.phc.attendance.R
+import com.airei.app.phc.attendance.api.ApiDetails.PLANTATION_API
 import com.airei.app.phc.attendance.common.AppPreferences
-import com.airei.app.phc.attendance.common.PLANTATION_API
 import com.airei.app.phc.attendance.databinding.FragmentLoginBinding
 import com.airei.app.phc.attendance.entity.MillLoginResponse
 import com.airei.app.phc.attendance.entity.PlantationLoginResponse
@@ -50,7 +50,7 @@ class LoginFragment : Fragment() {
                 }
             })
         observerLogin()
-        setlayout(AppPreferences.apiType)
+        setLayout(AppPreferences.apiType)
         checkLoginServer()
         clickAction()
     }
@@ -82,6 +82,7 @@ class LoginFragment : Fragment() {
                                         ).show()
                                         saveLoginData(data)
                                         findNavController().navigate(R.id.onlineDataSyncFragment)
+
                                     } else {
                                         Toast.makeText(
                                             requireContext(),
@@ -186,12 +187,11 @@ class LoginFragment : Fragment() {
     }
 
 
-    private fun setlayout(apiType: String) {
-        if (apiType == PLANTATION_API) {
-            binding.tlMillCode.visibility = View.GONE
-        } else {
-            binding.tlMillCode.visibility = View.VISIBLE
-            binding.etMillCode.setText("1034")
+    private fun setLayout(apiType: String) {
+        binding.tvServer.text = if(apiType == PLANTATION_API){
+            getString(R.string.plantation)
+        }else{
+            getString(R.string.mill)
         }
     }
 
@@ -281,7 +281,7 @@ class LoginFragment : Fragment() {
 
     private fun showAlertDialog() {
         dialog = showServerSelectDialog(
-            requireActivity(), preSelectedMode = PLANTATION_API
+            requireActivity(), preSelectedMode = if(AppPreferences.apiType == "") null else AppPreferences.apiType
         ) { mode ->
             Toast.makeText(requireContext(), "Selected: $mode", Toast.LENGTH_SHORT).show()
             AppPreferences.apiType = mode

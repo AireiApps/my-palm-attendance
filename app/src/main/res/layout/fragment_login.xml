@@ -37,11 +37,22 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv_server"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="18dp"
+            android:text="@string/sign_in_to_continue"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tl_mill_code"
             style="@style/TextLayoutStyleWhite"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp">
 
@@ -139,6 +150,7 @@
                 android:paddingVertical="12dp"
                 android:text="@string/forgot_password"
                 android:textAlignment="textStart"
+                android:visibility="invisible"
                 android:textColor="@color/alabaster"
                 android:textSize="14sp"
                 android:textStyle="bold" />

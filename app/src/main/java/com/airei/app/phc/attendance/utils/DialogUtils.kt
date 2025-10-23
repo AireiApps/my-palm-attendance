@@ -19,9 +19,9 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.graphics.drawable.toDrawable
 import com.airei.app.phc.attendance.R
 import com.airei.app.phc.attendance.adapter.CustomSpinnerAdapter
+import com.airei.app.phc.attendance.api.ApiDetails.MILL_API
+import com.airei.app.phc.attendance.api.ApiDetails.PLANTATION_API
 import com.airei.app.phc.attendance.common.AppPreferences
-import com.airei.app.phc.attendance.common.MILL_API
-import com.airei.app.phc.attendance.common.PLANTATION_API
 import com.airei.app.phc.attendance.databinding.DialogApiSelectBinding
 import com.airei.app.phc.attendance.databinding.LayoutCommonMsgBinding
 import com.airei.app.phc.attendance.databinding.LayoutEmpSaveBinding
@@ -41,6 +41,9 @@ fun showServerSelectDialog(
     when (preSelectedMode) {
         PLANTATION_API -> binding.radioPlantation.isChecked = true
         MILL_API -> binding.radioMill.isChecked = true
+        else -> {
+            binding.radioPlantation.isChecked = true
+        }
     }
 
     val dialog = MaterialAlertDialogBuilder(context)

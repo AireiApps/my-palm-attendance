@@ -29,7 +29,7 @@ import retrofit2.http.Query
 interface ApiService {
     @GET(ApiDetails.LOG_IN)
     suspend fun loginUserMill(
-        @Query("millcode") millCode: String,
+        //@Query("millcode") millCode: String,
         @Query("username") username: String,
         @Query("password") password: String
     ): Response<ApiResponse<MillLoginResponse>>

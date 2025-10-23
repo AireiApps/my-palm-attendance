@@ -70,7 +70,7 @@ interface EmployeeBioDao {
     suspend fun updateEmployeeBio(employeeBio: EmployeeBioTable)
 
     // Delete all records
-    @Query("DELETE FROM emp_bio_table")
+    @Query("DELETE FROM emp_bio_table WHERE upload_status = 1")
     suspend fun deleteAllEmployeeBio()
 
     // Get all employee bios as LiveData

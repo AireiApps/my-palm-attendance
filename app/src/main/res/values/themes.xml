@@ -3,26 +3,15 @@
     <style name="Base.Theme.MyPalmPHCAttendance" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="fontFamily">@font/fredoka_regular</item>
         <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">never</item>
-        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="font">@font/fredoka_regular</item>
         <item name="android:colorPrimaryDark">@color/mirage</item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 
     <style name="Theme.MyPalmPHCAttendance" parent="Base.Theme.MyPalmPHCAttendance" />
-
-    <!-- Splash Screen Theme -->
-    <style name="Theme.MyApp.Splash" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Use drawable for splash background -->
-        <item name="android:windowBackground">@drawable/bg_splash_screen</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="31">@mipmap/ic_my_palm_attendance_round</item>
-        <item name="android:windowSplashScreenAnimationDuration" tools:targetApi="31">3000</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowSplashScreenBehavior" tools:ignore="NewApi">icon_preferred</item>
-    </style>
 
     <style name="TextLayoutStyleWhite" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
@@ -99,12 +88,8 @@
         <item name="android:textColor">@color/alto</item>
         <item name="android:textSize">20sp</item>
         <item name="android:paddingVertical">16dp</item>
-        <item name="android:text">@string/no_records_found</item>
+        <item name="android:text">@string/no_match_found</item>
     </style>
-
-    <string name="no_records_found">No Records Found</string>
-
-
     <!-- TextView Style -->
     <style name="CustomTextView">
         <item name="android:textColor">@color/white</item>

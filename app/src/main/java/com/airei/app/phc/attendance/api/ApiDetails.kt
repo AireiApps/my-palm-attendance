@@ -8,7 +8,7 @@ object ApiDetails {
     const val MILL_BASE_URL = "https://phc.mypalm.com.my/MobileAPI/"
 
     // Endpoints
-    const val LOG_IN = "login"
+    const val LOG_IN = "login_attendance"
 
     const val MILL_EMPLOYEE_LIST = "employee_list"
     const val PLANTATION_EMPLOYEE_LIST = "userList"

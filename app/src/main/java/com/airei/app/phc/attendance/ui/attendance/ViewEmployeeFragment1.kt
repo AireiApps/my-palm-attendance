@@ -1,12 +1,19 @@
 package com.airei.app.phc.attendance.ui.attendance
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +24,7 @@ import com.airei.app.phc.attendance.databinding.FragmentViewEmployee1Binding
 import com.airei.app.phc.attendance.entity.EmployeeBioTable
 import com.airei.app.phc.attendance.entity.EmployeeTable
 import com.airei.app.phc.attendance.viewmodel.RoomViewModel
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 
 class ViewEmployeeFragment : Fragment() {
     private var _binding: FragmentViewEmployee1Binding? = null
@@ -59,9 +67,118 @@ class ViewEmployeeFragment : Fragment() {
                     goBackPage()
                 }
             })
+        setSearchEdittest()
         setToolBar()
         //setEmpTypeDropDown()
         observeData()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setSearchEdittest() {
+        with(binding) {
+
+            fun hideKeyboard(view: View) {
+                val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+            }
+
+
+            // 🔍 Handle text change - show icons dynamically
+            etSearch.doAfterTextChanged { text ->
+                val editText = etSearch
+
+                // Start icon = search, End icon toggles between search & clear
+                if (text.isNullOrEmpty()) {
+                    editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_search, 0)
+                } else {
+                    editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close, 0)
+                }
+
+                // Filter employee list (optional)
+                // adapter.filter(text.toString())
+            }
+
+            // ❌ Handle clear icon click
+            etSearch.setOnTouchListener { _, event ->
+                if (event.action == MotionEvent.ACTION_UP) {
+                    val drawableEnd = etSearch.compoundDrawables[2]
+                    if (drawableEnd != null && event.rawX >= (etSearch.right - drawableEnd.bounds.width() - 30)) {
+                        etSearch.text?.clear()
+                        etSearch.clearFocus()
+                        hideKeyboard(etSearch)
+                        setEmpListAdapter(empLocList = employeeTable,
+                            sort = sortType.value?:1,
+                            workType = selectOption.value ?: employeeTypes[0],
+                            searchQuery = binding.etSearch.text.toString()
+                        )
+                        return@setOnTouchListener true
+                    }
+                }
+                false
+            }
+
+            // ⌨️ Handle keyboard "Search" button click
+            etSearch.setOnEditorActionListener { v, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    val query = etSearch.text.toString().trim()
+
+                    // 🧭 Close keyboard and clear focus
+                    etSearch.clearFocus()
+                    hideKeyboard(v)
+
+                    // ✅ Start your search action here
+                    if (query.isNotEmpty()) {
+                        // Example: performSearch(query)
+                        val searchQuery = query.orEmpty().trim().lowercase()
+                        setEmpListAdapter(empLocList = employeeTable,
+                            sort = sortType.value?:1,
+                            workType = selectOption.value ?: employeeTypes[0],
+                            searchQuery = searchQuery
+                        )
+                    }
+
+                    true // consume the action
+                } else {
+                    false
+                }
+            }
+        }
+    }
+
+
+    private fun setEmpListAdapter(empLocList: List<EmployeeTable> = emptyList() , sort : Int = sortType.value ?: 1, workType: String = employeeTypes[0], searchQuery: String = ""){
+        val adapter = EmployeeAdapter(object : EmployeeAdapter.ActionClickListener {
+            override fun onBtnClick(data: EmployeeTable) {
+                // handle button click
+                val bundle = Bundle().apply {
+                    putString("select_emp_id", data.userId) // selectedEmpId is the value you want to pass
+                }
+                findNavController().navigate(R.id.faceRegisterFragment, bundle)
+            }
+        })
+        binding.rvEmployee.adapter = adapter
+        val filterWorkerType = when (workType) {
+            employeeTypes[0] -> empLocList.filter { it.empType == "1" }
+            employeeTypes[1] -> empLocList.filter { it.empType == "2" }
+            else -> empLocList
+        }
+        val filteredSearchQueryList = if (searchQuery == ""){
+            filterWorkerType
+        }else{
+            filterWorkerType.filter {
+                it.name.lowercase().contains(searchQuery) ||
+                        it.empCode.lowercase().contains(searchQuery)
+            }
+        }
+
+        val sortedList = when (sort) {
+            1 -> filteredSearchQueryList.sortedBy { it.name }            // Name A → Z
+            2 -> filteredSearchQueryList.sortedByDescending { it.name }  // Name Z → A
+            3 -> filteredSearchQueryList.sortedBy { it.empCode }    // Employee ID (optional)
+            else -> filteredSearchQueryList
+        }
+
+        adapter.setData(sortedList, employeeBioTable)
     }
 
     private fun setEmpTypeDropDown() {
@@ -94,22 +211,24 @@ class ViewEmployeeFragment : Fragment() {
         }
     }
 
+
+
     private fun observeData() {
 
         sortType.observe(viewLifecycleOwner) {
-            setEmployeeList(employeeTable, it)
+            setEmpListAdapter(empLocList = employeeTable,
+                sort = it,
+                workType = selectOption.value ?: employeeTypes[0],
+                searchQuery = binding.etSearch.text.toString()
+            )
         }
 
         selectOption.observe(viewLifecycleOwner) {
-            when (it) {
-                employeeTypes[0] -> {
-                    setEmployeeList(employeeTable.filter { e -> e.empType == "1" }.toMutableList())
-                }
-
-                employeeTypes[1] -> {
-                    setEmployeeList(employeeTable.filter { e -> e.empType == "2" }.toMutableList())
-                }
-            }
+            setEmpListAdapter(empLocList = employeeTable,
+                sort = sortType.value?:1,
+                workType = it,
+                searchQuery = binding.etSearch.text.toString()
+            )
         }
 
         with(viewModel){
@@ -119,7 +238,7 @@ class ViewEmployeeFragment : Fragment() {
             }
             getAllEmployees().observe(viewLifecycleOwner) {
                 employeeTable.clear()
-                employeeTable.addAll(it.filter { e -> e.empType == "2"})
+                employeeTable.addAll(it)
                /* if (viewModel.loginEstate != "") {
                     employeeTable = employeeTable.filter { e -> e.estateId == viewModel.loginEstate }.toMutableList()
                 }
@@ -141,30 +260,6 @@ class ViewEmployeeFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun setEmployeeList(empList:MutableList<EmployeeTable> , sort: Int = sortType.value ?: 1) {
-        // Sort based on sortType
-        val sortedList = when (sort) {
-            1 -> empList.sortedBy { it.name }            // Name A → Z
-            2 -> empList.sortedByDescending { it.name }  // Name Z → A
-            3 -> empList.sortedBy { it.empCode }    // Employee ID (optional)
-            else -> empList
-        }
-
-        binding.rvEmployee.adapter =
-            EmployeeAdapter(
-                sortedList,
-                employeeBioTable,
-                object : EmployeeAdapter.ActionClickListener {
-                    override fun onBtnClick(data: EmployeeTable) {
-                        //viewModel.enrollEmpData.postValue(data)
-                        val bundle = Bundle().apply {
-                            putString("select_emp_id", data.userId) // selectedEmpId is the value you want to pass
-                        }
-                        findNavController().navigate(R.id.faceRegisterFragment, bundle)
-                    }
-                })
     }
 
     private fun setToolBar() {
