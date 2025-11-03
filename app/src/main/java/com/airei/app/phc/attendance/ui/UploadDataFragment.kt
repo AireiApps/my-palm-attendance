@@ -24,9 +24,10 @@ import com.airei.app.phc.attendance.entity.EmpAttendanceTable
 import com.airei.app.phc.attendance.entity.EmpFaceAccessReq
 import com.airei.app.phc.attendance.entity.EmployeeBioTable
 import com.airei.app.phc.attendance.entity.OnlineData
-import com.airei.app.phc.attendance.utils.saveDataToDownloadsScoped
+import com.airei.app.phc.attendance.utils.saveStringToFile
 import com.airei.app.phc.attendance.viewmodel.ApiViewModel
 import com.airei.app.phc.attendance.viewmodel.RoomViewModel
+import com.google.gson.Gson
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -220,10 +221,10 @@ class UploadDataFragment : Fragment() {
 
             val reqData = AttendanceReq(attendanceDataList)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                saveDataToDownloadsScoped(
-                    requireContext(),
-                    "MyPalmAttendance-EmpAttendance",
-                    reqData
+                saveStringToFile(
+                    Gson().toJson(reqData),
+                    "MyPlanAttendanceLog",
+                    "EmpAttendance-${System.currentTimeMillis()}.txt"
                 )
             }
             // Launch coroutine to call suspend function
@@ -278,7 +279,11 @@ class UploadDataFragment : Fragment() {
 
             val reqData = EmpFaceAccessReq(empFace)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                saveDataToDownloadsScoped(requireContext(), "MyPalmAttendance-EmpFace", reqData)
+                saveStringToFile(
+                    Gson().toJson(reqData),
+                    "MyPlanAttendanceLog",
+                    "EmpFace-${System.currentTimeMillis()}.txt"
+                )
             }
             // Launch coroutine to call suspend function
             viewModelScope.launch {

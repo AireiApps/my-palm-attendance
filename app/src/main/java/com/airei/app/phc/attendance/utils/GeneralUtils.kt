@@ -77,25 +77,32 @@ fun getTodayStartTimeMillis(): Long {
     return calendar.timeInMillis
 }
 
-@RequiresApi(Build.VERSION_CODES.Q)
-fun saveDataToDownloadsScoped(context: Context, fileName: String, data: Any) {
-    val gson = Gson()
-    val jsonString = gson.toJson(data)
 
-    val resolver = context.contentResolver
-    val contentValues = ContentValues().apply {
-        put(MediaStore.Downloads.DISPLAY_NAME, fileName)
-        put(MediaStore.Downloads.MIME_TYPE, "application/json")
-        put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
-    }
 
-    val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
-    if (uri != null) {
-        resolver.openOutputStream(uri).use { outputStream: OutputStream? ->
-            outputStream?.write(jsonString.toByteArray())
+fun saveStringToFile(
+    content: String,
+    dirName: String = "MyPlanAttendanceLog",
+    fileName: String = "${System.currentTimeMillis()}.txt"
+): String? {
+    return try {
+        // Create app-specific external storage dir
+        val logDir = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+            dirName
+        )
+        if (!logDir.exists()) logDir.mkdirs()
+
+        // Create the file
+        val logFile = File(logDir, fileName)
+
+        FileWriter(logFile).use { writer ->
+            writer.write(content)
         }
-        Log.d("SaveData", "Data saved to Downloads: $fileName")
-    } else {
-        Log.e("SaveData", "Failed to create file in Downloads")
+        Log.d("saveStringToFile", "saveStringToFile: ${logFile.absolutePath}")
+        logFile.absolutePath // return path for reference
+    } catch (e: Exception) {
+        Log.e("saveStringToFile", "saveStringToFile: ${e.message}")
+        e.printStackTrace()
+        null
     }
 }
