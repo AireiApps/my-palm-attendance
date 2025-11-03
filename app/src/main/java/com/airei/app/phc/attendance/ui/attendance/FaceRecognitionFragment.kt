@@ -91,6 +91,7 @@ class FaceRecognitionFragment : Fragment() {
 
     private fun setLayoutAreaInfo(){
         with(binding){
+
             etEstate.setText("")
             etDivision.setText("")
             etBlock.setText("")
@@ -196,8 +197,6 @@ class FaceRecognitionFragment : Fragment() {
             }
         }
     }
-
-
 
     private fun observeData() {
         with(viewModel) {
@@ -354,7 +353,7 @@ class FaceRecognitionFragment : Fragment() {
                 onlineId = ""
             )
         }
-        if(AppPreferences.apiType == PLANTATION_API.toString()){
+        if(AppPreferences.apiType == PLANTATION_API.toString() && detectionEmpAttendance?.outTime == "0"){
             setLayoutAreaInfo()
         }else{
             saveAttendance(detectionEmpAttendance!!)
