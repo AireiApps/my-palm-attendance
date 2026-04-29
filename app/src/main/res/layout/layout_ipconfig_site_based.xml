@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    app:cardBackgroundColor="@color/alabaster"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mirage"
+            android:paddingVertical="12dp"
+            android:text="@string/select_site"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Radio group for modes -->
+        <RadioGroup
+            android:id="@+id/radioGroupMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="12dp">
+
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/ll_local_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Switch to toggle between IP and Full URL -->
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch_full_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:paddingVertical="12dp"
+                android:paddingStart="4dp"
+                android:text="Use Full URL"
+                android:textColor="@color/mirage" />
+
+            <!-- EditText for IP (hidden by default) -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_local_url"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/et_bg_fill_white"
+                android:hint="Enter Local URL"
+                android:visibility="gone"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/mirage"
+                app:hintTextColor="@color/mirage">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_local_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:textColor="@color/mirage" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- EditText for IP (hidden by default) -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_local_ip"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/et_bg_fill_white"
+                android:hint="Enter Local IP"
+                android:visibility="gone"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/mirage"
+                app:hintTextColor="@color/mirage">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_local_ip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:digits="0123456789."
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:maxLength="15"
+                    android:textColor="@color/mirage" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="1"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_reset"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight=".5"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="18dp"
+                android:background="@drawable/btn_bg_white_fill"
+                android:backgroundTint="@color/pale_sky"
+                android:text="@string/reset"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight=".5"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="18dp"
+                android:background="@drawable/btn_bg_white_fill"
+                android:backgroundTint="@color/green"
+                android:text="@string/save"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

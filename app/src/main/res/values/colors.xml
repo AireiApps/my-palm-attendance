@@ -34,5 +34,6 @@
     <color name="green_lite">#5806B90D</color>
     <color name="red_lite">#70C10000</color>
     <color name="white_70">#57FFFFFF</color>
+    <color name="pale_sky">#677981</color>
 
 </resources>

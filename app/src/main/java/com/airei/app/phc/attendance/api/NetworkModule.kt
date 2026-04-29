@@ -19,9 +19,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    val apiType = AppPreferences.apiType
-
-    val baseUrl = if (apiType == PLANTATION_API) ApiDetails.PLANTATION_BASE_URL else ApiDetails.MILL_BASE_URL
+    private const val TAG = "NetworkModule"
 
     @Provides
     @Singleton
@@ -37,16 +35,29 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
-        Retrofit.Builder()
-            .baseUrl(baseUrl) // change to your API base url
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        // ✅ Compute baseUrl dynamically every time Retrofit is provided
+        val apiType = AppPreferences.apiType
+
+        val baseUrl = if (apiType == ApiDetails.PLANTATION_API)
+            AppPreferences.apiClientList.find { it.isSelect }?.getFullLink()
+                ?: ApiDetails.PLANTATION_BASE_URL
+        else
+            ApiDetails.MILL_BASE_URL
+
+        // ✅ Log base URL for debugging
+        Log.e(TAG, "Using Base URL: $baseUrl (API Type: $apiType)")
+
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
+    }
 
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService =
         retrofit.create(ApiService::class.java)
 }
+

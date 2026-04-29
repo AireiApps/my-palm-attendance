@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.airei.app.phc.attendance.R
+import com.airei.app.phc.attendance.api.ApiDetails
+import com.airei.app.phc.attendance.api.ApiDetails.CLIENT_HOST_IP_LIST
 import com.airei.app.phc.attendance.api.ApiDetails.PLANTATION_API
 import com.airei.app.phc.attendance.common.AppPreferences
 import com.airei.app.phc.attendance.databinding.FragmentLoginBinding
@@ -21,6 +23,7 @@ import com.airei.app.phc.attendance.entity.toUserEntity
 import com.airei.app.phc.attendance.utils.restartApp
 import com.airei.app.phc.attendance.utils.showRestartApiAlert
 import com.airei.app.phc.attendance.utils.showServerSelectDialog
+import com.airei.app.phc.attendance.utils.showSiteIpConfigDialog
 import com.airei.app.phc.attendance.viewmodel.ApiViewModel
 import com.airei.app.phc.attendance.viewmodel.RoomViewModel
 
@@ -270,29 +273,66 @@ class LoginFragment : Fragment() {
     }
 
     private fun checkLoginServer() {
-        // 1. Plantation API
-        // 2. Mill API
         val apiType = AppPreferences.apiType
         Log.e(TAG, "API Type: $apiType")
-        if (apiType == "") {
-            showAlertDialog()
+
+        when {
+            // 1️⃣ No API Type selected → show main server type dialog
+            apiType.isBlank() -> showAlertDialog()
+
+            // 2️⃣ Plantation API → must select or show IP config
+            apiType == ApiDetails.PLANTATION_API -> {
+                if (AppPreferences.apiClientList.isEmpty()) {
+                    // Initialize with default plantation client list
+                    AppPreferences.apiClientList = CLIENT_HOST_IP_LIST
+                    showSiteIpConfigDialog(requireActivity(), ArrayList(AppPreferences.apiClientList))
+                } else if (!AppPreferences.apiClientList.any { it.isSelect }) {
+                    // No site selected yet → ask user
+                    showSiteIpConfigDialog(requireActivity(), ArrayList(AppPreferences.apiClientList))
+                } else {
+                    // ✅ Already selected → continue normal flow
+                    Log.d(TAG, "Selected Plantation Site: ${AppPreferences.apiClientList.find { it.isSelect }?.siteName}")
+                }
+            }
+
+            // 3️⃣ Mill API → restart flow
+            else -> {
+                Log.e(TAG, "API Type: Mill or Other ($apiType)")
+                /*showRestartApiAlert(requireActivity()) {
+                    Toast.makeText(requireContext(), "Restarting App", Toast.LENGTH_SHORT).show()
+                    restartApp(requireActivity())
+                }*/
+            }
         }
     }
 
+
     private fun showAlertDialog() {
         dialog = showServerSelectDialog(
-            requireActivity(), preSelectedMode = if(AppPreferences.apiType == "") null else AppPreferences.apiType
+            requireActivity(),
+            preSelectedMode = if (AppPreferences.apiType.isBlank()) null else AppPreferences.apiType
         ) { mode ->
             Toast.makeText(requireContext(), "Selected: $mode", Toast.LENGTH_SHORT).show()
             AppPreferences.apiType = mode
-            Log.e(TAG, "API Type Show AlertDialog:  $mode")
-            showRestartApiAlert(requireActivity()) {
-                Toast.makeText(requireContext(), "Restarting App", Toast.LENGTH_SHORT).show()
-                restartApp(requireActivity())
+
+            if (mode == ApiDetails.PLANTATION_API) {
+                if (AppPreferences.apiClientList.isEmpty()) {
+                    AppPreferences.apiClientList = CLIENT_HOST_IP_LIST
+                }
+                // Show site IP dialog after selecting Plantation API
+                showSiteIpConfigDialog(requireActivity(), ArrayList(AppPreferences.apiClientList))
+            } else {
+                Log.e(TAG, "API Type Show AlertDialog: $mode")
+                showRestartApiAlert(requireActivity()) {
+                    Toast.makeText(requireContext(), "Restarting App", Toast.LENGTH_SHORT).show()
+                    restartApp(requireActivity())
+                }
             }
         }
+
         dialog?.show()
     }
+
 
     companion object {
         const val TAG: String = "LoginFragment"

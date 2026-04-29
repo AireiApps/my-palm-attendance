@@ -4,6 +4,7 @@ import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.airei.app.phc.attendance.api.ApiDetails.PLANTATION_BASE_URL
 import java.util.UUID
 
 enum class AttendanceStatus {
@@ -27,3 +28,16 @@ data class MatchData(
     @Ignore
     var distance: Float = 0f,
 )
+
+data class ClientBaseIP(
+    val siteName: String,
+    val ip: String,
+    val path: String,
+    val isSelect: Boolean = false
+) {
+    fun getFullLink(): String {
+        val normalizedPath = if (path.startsWith("/")) path else "/$path"
+        return "http://$ip$normalizedPath"
+    }
+}
+

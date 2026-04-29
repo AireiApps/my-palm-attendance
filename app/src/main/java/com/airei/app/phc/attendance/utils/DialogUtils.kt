@@ -1,5 +1,6 @@
 package com.airei.app.phc.attendance.utils
 
+import android.app.Activity
 import android.app.AlarmManager
 import android.app.Dialog
 import android.app.PendingIntent
@@ -14,6 +15,8 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
+import android.widget.RadioButton
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.graphics.drawable.toDrawable
@@ -23,10 +26,14 @@ import com.airei.app.phc.attendance.api.ApiDetails.MILL_API
 import com.airei.app.phc.attendance.api.ApiDetails.PLANTATION_API
 import com.airei.app.phc.attendance.common.AppPreferences
 import com.airei.app.phc.attendance.databinding.DialogApiSelectBinding
+import com.airei.app.phc.attendance.databinding.ItemSiteNameBinding
 import com.airei.app.phc.attendance.databinding.LayoutCommonMsgBinding
 import com.airei.app.phc.attendance.databinding.LayoutEmpSaveBinding
+import com.airei.app.phc.attendance.databinding.LayoutIpconfigSiteBasedBinding
 import com.airei.app.phc.attendance.databinding.LayoutSpinnerOptionBinding
+import com.airei.app.phc.attendance.entity.ClientBaseIP
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.radiobutton.MaterialRadioButton
 import java.util.Locale
 import kotlin.system.exitProcess
 
@@ -258,3 +265,61 @@ fun showFieldSelectionDialog(
             }
     }
 }
+
+fun showSiteIpConfigDialog(activity: Activity, siteList: ArrayList<ClientBaseIP>) {
+    val dialogView = LayoutIpconfigSiteBasedBinding.inflate(LayoutInflater.from(activity))
+    val dialog = AlertDialog.Builder(activity)
+        .setView(dialogView.root)
+        .setCancelable(true)
+        .create()
+
+    val radioGroup = dialogView.radioGroupMode
+    radioGroup.removeAllViews()
+    val inflater = LayoutInflater.from(activity)
+
+    siteList.forEachIndexed { index, client ->
+        val radioButton = ItemSiteNameBinding.inflate(inflater, radioGroup, false).radioGlobalUrl
+        radioButton.text = client.siteName
+        radioButton.isChecked = client.isSelect
+
+        radioButton.setOnClickListener {
+            // Update selected state
+            siteList.forEachIndexed { i, _ ->
+                siteList[i] = siteList[i].copy(isSelect = i == index)
+            }
+
+            // Refresh checked UI
+            for (i in 0 until radioGroup.childCount) {
+                (radioGroup.getChildAt(i) as? RadioButton)?.isChecked = i == index
+            }
+        }
+        radioGroup.addView(radioButton)
+    }
+
+    // ✅ Save selection
+    dialogView.btnAdd.setOnClickListener {
+        AppPreferences.apiClientList = siteList
+        val selected = siteList.find { it.isSelect }
+        Toast.makeText(activity, "Selected Site: ${selected?.siteName ?: "None"}", Toast.LENGTH_SHORT).show()
+        dialog.dismiss()
+    }
+
+    // 🔄 Reset selection
+    dialogView.btnReset.setOnClickListener {
+        // Clear all selected flags
+        siteList.forEachIndexed { i, c ->
+            siteList[i] = c.copy(isSelect = false)
+        }
+        // Update UI
+        for (i in 0 until radioGroup.childCount) {
+            (radioGroup.getChildAt(i) as? RadioButton)?.isChecked = false
+        }
+        // Persist cleared list in preferences
+        AppPreferences.apiClientList = siteList
+        Toast.makeText(activity, "All site selections cleared", Toast.LENGTH_SHORT).show()
+    }
+
+    dialog.show()
+}
+
+

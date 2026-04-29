@@ -72,5 +72,7 @@
     <string name="no_data_found">No Data Found</string>
     <string name="search">search</string>
     <string name="no_offline_data_to_upload">No offline data to upload</string>
+    <string name="reset">Reset</string>
+    <string name="select_site">Select Site</string>
 
 </resources>
